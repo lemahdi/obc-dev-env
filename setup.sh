@@ -65,6 +65,9 @@ PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 # Install protobuf
 ./golang_grpcSetup.sh
 
+# Install RocksDB
+./installRocksDB.sh
+
 # Install update CLI
 #cd ../update-cli
 #rm -f dist/*
