@@ -31,7 +31,7 @@ service docker restart
 
 
 
-cd #{SRCMOUNT}/openchain-dev-env
+cd #{SRCMOUNT}/obc-dev-env
 ./setup.sh
 
 SCRIPT
