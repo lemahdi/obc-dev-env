@@ -27,6 +27,7 @@ set -x
 cd /opt
 git clone https://github.com/facebook/rocksdb.git
 cd rocksdb
+git checkout tags/v3.13.1
 
 make shared_lib
 
