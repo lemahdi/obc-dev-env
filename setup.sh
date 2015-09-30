@@ -68,6 +68,9 @@ PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 # Install RocksDB
 ./installRocksDB.sh
 
+# Ensure permissions are set for GOPATH
+sudo chown -R vagrant:vagrant $GOPATH
+
 # Install update CLI
 #cd ../update-cli
 #rm -f dist/*

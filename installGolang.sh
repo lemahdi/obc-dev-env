@@ -53,6 +53,8 @@ rm go$GO_VER.linux-${ARCH}.tar.gz
 # normal -R here because VMWare complains if we try to update the shared
 # folder permissions, so we just update the folders that matter.
 sudo mkdir -p $SRCPATH
+sudo mkdir -p $SRCPATH/pkg
+sudo mkdir -p $SRCPATH/bin
 sudo chown -R vagrant:vagrant $SRCPATH
 #find /opt/gopath -type d -maxdepth 3 | xargs sudo chown vagrant:vagrant
 cat <<EOF >/tmp/gopath.sh
