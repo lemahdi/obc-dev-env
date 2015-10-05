@@ -68,6 +68,10 @@ PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 # Install RocksDB
 ./installRocksDB.sh
 
+# Create directory for the DB
+sudo mkdir -p /var/openchain
+sudo chown -R vagrant:vagrant /var/openchain
+
 # Ensure permissions are set for GOPATH
 sudo chown -R vagrant:vagrant $GOPATH
 
