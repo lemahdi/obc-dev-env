@@ -38,25 +38,10 @@ SCRIPT
 
 Vagrant.configure('2') do |config|
   config.vm.box = "ubuntu/trusty64"
-#  config.vm.box = "ubuntu-12.04-amd64-ready-for-docker"
-#  config.vm.box_url = "http://nitron-vagrant.s3-website-us-east-1.amazonaws.com/vagrant_ubuntu_12.04.3_amd64_virtualbox.box"
 
-#  config.vm.network :forwarded_port, guest: 7001, host: 7001 # haproxy stats server
-#  config.vm.network :forwarded_port, guest: 27017, host: 27018 # mongodb server
-# The docker environment that is installed by this script is not secure,
-# it depends on the host being secure.  The following line needs to be commented
-# out to keep it secure
-#  config.vm.network :forwarded_port, guest: 4243, host: 4243 # docker remote host port
-#  config.vm.network :forwarded_port, guest: 5984, host: 5984 # CouchDB port
-  config.vm.network :forwarded_port, guest: 5000, host: 3000 # web3 server port
-  config.vm.network :forwarded_port, guest: 5000, host: 4000 # openchain-proxy server
-
-#  config.vm.network :forwarded_port, guest: 9200, host: 9200 # Elasticsearch
-#  config.vm.network :forwarded_port, guest: 9300, host: 9300 # Elasticsearch
-#  config.vm.network :forwarded_port, guest: 8888, host: 8888 # Apache (Kibana)
+  config.vm.network :forwarded_port, guest: 5000, host: 3000 # Openchain REST services
 
   config.vm.synced_folder "..", "#{SRCMOUNT}"
-#  config.vm.synced_folder "#{HOST_GOPATH}/src/hub.jazz.net/openchain-peer", "/opt/gopath/src/hub.jazz.net/openchain-peer"
   config.vm.synced_folder "#{HOST_GOPATH}/src", "/opt/gopath/src"
 
   config.vm.provider :virtualbox do |vb|
