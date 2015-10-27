@@ -55,7 +55,3 @@ export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 # Install the protoc Go plugin.
 go get -a github.com/golang/protobuf/protoc-gen-go
-
-# Compile proto files required by openchain-peer
-protoc --go_out=plugins=grpc:$GOPATH/src /usr/include/google/protobuf/timestamp.proto
-protoc --go_out=plugins=grpc:$GOPATH/src /usr/include/google/protobuf/empty.proto

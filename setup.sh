@@ -62,8 +62,9 @@ PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 # Install NodeJS
 ./installNodejs.sh
 
-# Install protobuf
+# Install protobuf and compile protos
 ./golang_grpcSetup.sh
+./compile_protos.sh
 
 # Install RocksDB
 ./installRocksDB.sh
@@ -75,11 +76,6 @@ sudo chown -R vagrant:vagrant /var/openchain
 # Ensure permissions are set for GOPATH
 sudo chown -R vagrant:vagrant $GOPATH
 
-# Install update CLI
-#cd ../update-cli
-#rm -f dist/*
-#python setup.py install
-
 # Install cf CLI
 cd /tmp
 wget 'https://cli.run.pivotal.io/stable?release=debian64&version=6.11.3&source=github-rel' -O cf.deb
@@ -88,27 +84,3 @@ dpkg -i cf.deb
 # Install ice CLI
 wget https://static-ice.ng.bluemix.net/icecli-3.0.zip
 pip install icecli-3.0.zip
-
-## ----- Install jq  ------------
-## First install requirement
-#cd /tmp
-#wget http://www.geocities.jp/kosako3/oniguruma/archive/onig-5.9.6.tar.gz
-#tar -xf onig-5.9.6.tar.gz
-#rm onig-5.9.6.tar.gz
-#cd onig-5.9.6
-#./configure
-#make
-#sudo make install
-#
-## Now jq
-#sudo apt-get install autoconf
-#sudo apt-get install libtool
-#sudo apt-get install bison
-#cd /tmp
-#git clone https://github.com/stedolan/jq.git
-#cd jq
-## Now build jq
-#autoreconf -i
-#./configure
-#make LDFLAGS=-all-static
-#sudo make install
