@@ -35,7 +35,7 @@ ARCH=amd64
 #sudo apt-get install -y build-essential git-core
 
 # Install Go
-GO_VER=1.4.2
+GO_VER=1.5.1
 
 cd /tmp
 rm -f go$GO_VER.linux-${ARCH}.tar.gz
@@ -60,10 +60,12 @@ sudo chown -R vagrant:vagrant $SRCPATH
 cat <<EOF >/tmp/gopath.sh
 export GOPATH="$SRCPATH"
 export GOROOT="$SRCROOT"
+export GO15VENDOREXPERIMENT=1
 export PATH="$SRCROOT/bin:$SRCPATH/bin:\$PATH"
 EOF
 sudo mv /tmp/gopath.sh /etc/profile.d/gopath.sh
 sudo chmod 0755 /etc/profile.d/gopath.sh
 source /etc/profile.d/gopath.sh
-# Install go tools
-go get golang.org/x/tools/cmd/cover
+
+# Install Go Vendor for vendor support
+go get github.com/kardianos/govendor

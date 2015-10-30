@@ -42,7 +42,7 @@ Vagrant.configure('2') do |config|
   config.vm.network :forwarded_port, guest: 5000, host: 3000 # Openchain REST services
 
   config.vm.synced_folder "..", "#{SRCMOUNT}"
-  config.vm.synced_folder "#{HOST_GOPATH}/src", "/opt/gopath/src"
+  config.vm.synced_folder "#{HOST_GOPATH}/src/github.com/openblockchain/obc-peer", "/opt/gopath/src/github.com/openblockchain/obc-peer"
 
   config.vm.provider :virtualbox do |vb|
     vb.name = "openchain"

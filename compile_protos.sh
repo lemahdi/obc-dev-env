@@ -9,13 +9,7 @@ protoc --go_out=plugins=grpc:$GOPATH/src /usr/include/google/protobuf/empty.prot
 
 # Compile protos in the proto folder
 cd $GOPATH/src/github.com/openblockchain/obc-peer/protos
-protoc --go_out=plugins=grpc:. openchain.proto
-for f in $(find -name '*.proto'); do
-	if [[ $f != "./openchain.proto" ]]
-		then
-			protoc --go_out=plugins=grpc:. openchain.proto $f
-	fi
-done
+protoc --go_out=plugins=grpc:. *.proto
 
 # Compile all other protos
 cd $GOPATH/src/github.com/openblockchain/obc-peer/
