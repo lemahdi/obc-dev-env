@@ -33,6 +33,7 @@ set -x
 cd /tmp
 git clone https://github.com/google/protobuf.git
 cd protobuf
+git checkout 12fb61b292d7ec4cb14b0d60e58ed5c35adda3b7
 #unzip needed for ./autogen.sh
 sudo apt-get install -y unzip
 sudo apt-get install -y autoconf
@@ -53,5 +54,8 @@ make check
 sudo make install
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
-# Install the protoc Go plugin.
-go get -a github.com/golang/protobuf/protoc-gen-go
+# Copy protobuf dir so we can build the protoc-gen-go binary. Then delete the directory.
+mkdir -p $GOPATH/src/github.com/golang/protobuf/
+cp -r $GOPATH/src/github.com/openblockchain/obc-peer/vendor/github.com/golang/protobuf/ $GOPATH/src/github.com/golang/
+go install -a github.com/golang/protobuf/protoc-gen-go
+rm -rf $GOPATH/src/github.com/golang/protobuf

@@ -40,5 +40,3 @@ sudo chmod 0755 /etc/profile.d/rocksLDLibrary.sh
 sudo apt-get install -y libsnappy-dev
 sudo apt-get install -y zlib1g-dev
 sudo apt-get install -y libbz2-dev
-
-CGO_CFLAGS="-I/opt/rocksdb/include" CGO_LDFLAGS="-L/opt/rocksdb -lrocksdb -lstdc++ -lm -lz -lbz2 -lsnappy" go get github.com/tecbot/gorocksdb
