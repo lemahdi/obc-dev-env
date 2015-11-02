@@ -74,7 +74,7 @@ cd $GOPATH/src/github.com/openblockchain/obc-peer
 CGO_CFLAGS="-I/opt/rocksdb/include" CGO_LDFLAGS="-L/opt/rocksdb -lrocksdb -lstdc++ -lm -lz -lbz2 -lsnappy" go install
 
 # Compile proto files
-/openchain/obc-dev-env/compile_protos.sh
+# /openchain/obc-dev-env/compile_protos.sh
 
 # Create directory for the DB
 sudo mkdir -p /var/openchain
