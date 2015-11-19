@@ -69,3 +69,7 @@ source /etc/profile.d/gopath.sh
 
 # Install Go Vendor for vendor support
 go get github.com/kardianos/govendor
+
+# Install Golint and goimports
+go get github.com/golang/lint/golint
+go get golang.org/x/tools/cmd/goimports
