@@ -24,44 +24,21 @@ fi
 set -e
 set -x
 
-SRCROOT="/opt/go"
-SRCPATH="/opt/gopath"
-
-# Get the ARCH
-#ARCH=`uname -m | sed 's|i686|386|' | sed 's|x86_64|amd64|'`
-ARCH=amd64
-## Install Go
-#sudo apt-get update
-#sudo apt-get install -y build-essential git-core
-
-# Install Go
-GO_VER=1.5.1
-
-cd /tmp
-rm -f go$GO_VER.linux-${ARCH}.tar.gz
-wget --quiet --no-check-certificate https://storage.googleapis.com/golang/go$GO_VER.linux-${ARCH}.tar.gz
-tar -xvf go$GO_VER.linux-${ARCH}.tar.gz
-sudo mv go $SRCROOT
-sudo chmod 775 $SRCROOT
-sudo chown -R vagrant:vagrant $SRCROOT
-rm go$GO_VER.linux-${ARCH}.tar.gz
-
-
 # Setup the GOPATH; even though the shared folder spec gives the consul
 # directory the right user/group, we need to set it properly on the
 # parent path to allow subsequent "go get" commands to work. We can't do
 # normal -R here because VMWare complains if we try to update the shared
 # folder permissions, so we just update the folders that matter.
-sudo mkdir -p $SRCPATH
-sudo mkdir -p $SRCPATH/pkg
-sudo mkdir -p $SRCPATH/bin
-sudo chown -R vagrant:vagrant $SRCPATH
+sudo mkdir -p $GOPATH
+sudo mkdir -p $GOPATH/pkg
+sudo mkdir -p $GOPATH/bin
+sudo chown -R vagrant:vagrant $GOPATH
 #find /opt/gopath -type d -maxdepth 3 | xargs sudo chown vagrant:vagrant
 cat <<EOF >/tmp/gopath.sh
-export GOPATH="$SRCPATH"
-export GOROOT="$SRCROOT"
+export GOPATH="$GOPATH"
+export GOROOT="$GOROOT"
 export GO15VENDOREXPERIMENT=1
-export PATH="$SRCROOT/bin:$SRCPATH/bin:\$PATH"
+export PATH="$GOROOT/bin:$GOPATH/bin:\$PATH"
 EOF
 sudo mv /tmp/gopath.sh /etc/profile.d/gopath.sh
 sudo chmod 0755 /etc/profile.d/gopath.sh

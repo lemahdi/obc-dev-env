@@ -36,7 +36,3 @@ export LD_LIBRARY_PATH="/opt/rocksdb:\$LD_LIBRARY_PATH"
 EOF
 sudo mv /tmp/rocksLDLibrary.sh /etc/profile.d/rocksLDLibrary.sh
 sudo chmod 0755 /etc/profile.d/rocksLDLibrary.sh
-
-sudo apt-get install -y libsnappy-dev
-sudo apt-get install -y zlib1g-dev
-sudo apt-get install -y libbz2-dev
