@@ -39,6 +39,8 @@ export GOPATH="$GOPATH"
 export GOROOT="$GOROOT"
 export GO15VENDOREXPERIMENT=1
 export PATH="$GOROOT/bin:$GOPATH/bin:\$PATH"
+export CGO_CFLAGS="-I/opt/rocksdb/include"
+export CGO_LDFLAGS="-L/opt/rocksdb -lrocksdb -lstdc++ -lm -lz -lbz2 -lsnappy"
 EOF
 sudo mv /tmp/gopath.sh /etc/profile.d/gopath.sh
 sudo chmod 0755 /etc/profile.d/gopath.sh
