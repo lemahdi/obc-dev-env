@@ -26,7 +26,8 @@ cd #{SRCMOUNT}/obc-dev-env
 SCRIPT
 
 Vagrant.configure('2') do |config|
-  config.vm.box = "openchain/devbase"
+  config.vm.box = "obc/dev-env"
+  config.vm.box_version = "1.0.0"
 
   config.vm.network :forwarded_port, guest: 5000, host: 3000 # Openchain REST services
 
