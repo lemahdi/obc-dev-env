@@ -15,27 +15,22 @@
 
 # This is the mount point for the sync_folders of the source
 SRCMOUNT = "/openchain"
-HOST_GOPATH = ENV['GOPATH']
 
 $script = <<SCRIPT
 set -x
 
-cd #{SRCMOUNT}/obc-dev-env
+cd #{SRCMOUNT}
 ./setup.sh
 
 SCRIPT
 
 Vagrant.configure('2') do |config|
-  config.vm.box = "obc/dev-env"
-  config.vm.box_version = "1.0.0"
+  config.vm.box = "ubuntu/trusty64"
 
-  config.vm.network :forwarded_port, guest: 5000, host: 3000 # Openchain REST services
-
-  config.vm.synced_folder "..", "#{SRCMOUNT}"
-  config.vm.synced_folder "#{HOST_GOPATH}/src/github.com/openblockchain/obc-peer", "/opt/gopath/src/github.com/openblockchain/obc-peer"
+  config.vm.synced_folder ".", "#{SRCMOUNT}"
 
   config.vm.provider :virtualbox do |vb|
-    vb.name = "openchain"
+    vb.name = "openchain-baseimage"
     vb.customize ['modifyvm', :id, '--memory', '4096']
     vb.cpus = 2
   end

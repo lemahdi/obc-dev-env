@@ -31,6 +31,12 @@ fi
 # Stop on first error
 set -e
 
+apt-get update -qq
+
+# configure docker
+echo 'DOCKER_OPTS="-s=aufs -r=true --api-enable-cors=true -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock --insecure-registry leanjazz.rtp.raleigh.ibm.com:5000 ${DOCKER_OPTS}"' > /etc/default/docker
+service docker restart
+
 # Install Python, pip, behave, nose
 apt-get install --yes python-setuptools
 apt-get install --yes python-pip
@@ -44,34 +50,29 @@ pip install -I flask==0.10.1 python-dateutil==2.2 pytz==2014.3 pyyaml==3.10 couc
 #apt-get install --yes ruby ruby-dev gcc
 #gem install apiaryio
 
-# install git
-apt-get install --yes git
-
-#install golang
-#apt-get install --yes golang
-./installGolang.sh
-
 # Set Go environment variables needed by other scripts
 export GOPATH="/opt/gopath"
 export GOROOT="/opt/go/"
 export GO15VENDOREXPERIMENT=1
 PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 
-# Setup golang cross compile
-#./golang_crossCompileSetup.sh
+#install golang deps
+./installGolang.sh
 
-# Install NodeJS
-./installNodejs.sh
-
-# Install protobuf and compile protos
-./golang_grpcSetup.sh
-
-# Install RocksDB
-./installRocksDB.sh
+# Configure RocksDB related deps
+sudo apt-get install -y libsnappy-dev
+sudo apt-get install -y zlib1g-dev
+sudo apt-get install -y libbz2-dev
 
 # Run go install - CGO flags for RocksDB
 cd $GOPATH/src/github.com/openblockchain/obc-peer
 CGO_CFLAGS="-I/opt/rocksdb/include" CGO_LDFLAGS="-L/opt/rocksdb -lrocksdb -lstdc++ -lm -lz -lbz2 -lsnappy" go install
+
+# Copy protobuf dir so we can build the protoc-gen-go binary. Then delete the directory.
+mkdir -p $GOPATH/src/github.com/golang/protobuf/
+cp -r $GOPATH/src/github.com/openblockchain/obc-peer/vendor/github.com/golang/protobuf/ $GOPATH/src/github.com/golang/
+go install -a github.com/golang/protobuf/protoc-gen-go
+rm -rf $GOPATH/src/github.com/golang/protobuf
 
 # Compile proto files
 # /openchain/obc-dev-env/compile_protos.sh

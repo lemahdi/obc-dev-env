@@ -53,9 +53,3 @@ make
 make check
 sudo make install
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-
-# Copy protobuf dir so we can build the protoc-gen-go binary. Then delete the directory.
-mkdir -p $GOPATH/src/github.com/golang/protobuf/
-cp -r $GOPATH/src/github.com/openblockchain/obc-peer/vendor/github.com/golang/protobuf/ $GOPATH/src/github.com/golang/
-go install -a github.com/golang/protobuf/protoc-gen-go
-rm -rf $GOPATH/src/github.com/golang/protobuf
