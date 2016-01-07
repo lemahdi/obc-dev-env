@@ -29,7 +29,7 @@ git clone https://github.com/facebook/rocksdb.git
 cd rocksdb
 git checkout tags/v4.1
 
-make shared_lib
+PORTABLE=1 make shared_lib
 
 cat <<EOF >/tmp/rocksLDLibrary.sh
 export LD_LIBRARY_PATH="/opt/rocksdb:\$LD_LIBRARY_PATH"
