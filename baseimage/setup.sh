@@ -6,7 +6,7 @@ helpme()
 Syntax: sudo $0
 
 Installs the stuff needed to get the VirtualBox Ubuntu (or other similar Linux
-host) into good shape to run our development environment.
+host) into good shape to serve as the base vagrant "box" for our development environment.
 
 This script needs to run as root.
 
