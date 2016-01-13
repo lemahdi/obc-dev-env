@@ -6,7 +6,7 @@ helpme()
 Syntax: sudo $0
 
 Installs the stuff needed to get the VirtualBox Ubuntu (or other similar Linux
-host) into good shape to run our development environment.
+host) into good shape to serve as the base vagrant "box" for our development environment.
 
 This script needs to run as root.
 
@@ -68,6 +68,8 @@ PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 
 # Now clean up the VM in preparation to package it up
 apt-get clean
-sudo dd if=/dev/zero of=/EMPTY bs=1M || true
+echo "Preparing filesystem for packaging.  Please be patient..."
+(sudo dd if=/dev/zero of=/EMPTY bs=1M) > /dev/null 2>&1 || true
 sudo rm -f /EMPTY
-cat /dev/null > ~/.bash_history && history -c && exit
+cat /dev/null > ~/.bash_history && history -c
+echo "Filesystem prepared!"
