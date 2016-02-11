@@ -1,4 +1,4 @@
-NAME="openchain/devbase"
+NAME="obc/dev-env"
 IMAGE= openchain-devbase.box
 
 all: $(IMAGE)

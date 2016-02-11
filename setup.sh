@@ -31,9 +31,12 @@ fi
 # Stop on first error
 set -e
 
-# Remove Docker TODO unnecessary after changes
-stop docker
-apt remove -y lxc-docker
+# Update system
+apt-get update -qq
+
+# Prep apt-get for docker install
+apt-get install -y apt-transport-https ca-certificates
+apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 
 # mkfs
 apt-get install -y btrfs-tools
@@ -44,17 +47,24 @@ mkdir -p /var/lib/docker
 echo "UUID=${ID_FS_UUID} /var/lib/docker btrfs defaults 0 0" >> /etc/fstab
 mount /var/lib/docker
 
-# Install docker
-apt-get install -y lxc-docker
+# Add docker repository
+echo deb https://apt.dockerproject.org/repo ubuntu-trusty main > /etc/apt/sources.list.d/docker.list
 
 # Update system
 apt-get update -qq
 
-# configure docker
+# Install docker
+apt-get install -y linux-image-extra-$(uname -r) apparmor docker-engine
+
+# Configure docker
 echo 'DOCKER_OPTS="-s=btrfs -r=true --api-enable-cors=true -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock --insecure-registry leanjazz.rtp.raleigh.ibm.com:5000 ${DOCKER_OPTS}"' > /etc/default/docker
 curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 service docker restart
+usermod -a -G docker vagrant # Add vagrant user to the docker group
+
+# Test docker
+docker run --rm busybox echo All good
 
 # Install Python, pip, behave, nose
 apt-get install --yes python-setuptools

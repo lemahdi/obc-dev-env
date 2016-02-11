@@ -52,7 +52,7 @@ Vagrant.configure('2') do |config|
 
           unless File.exist?(btrfs_disk)
             # Create the disk if it doesn't already exist
-            vb.customize ['createhd', '--filename', btrfs_disk, '--format', 'VDI', '--size', 20 * 1024 * 1024]
+            vb.customize ['createhd', '--filename', btrfs_disk, '--format', 'VDI', '--size', 20 * 1024]
           end
 
           # Add the disk to the VM
