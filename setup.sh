@@ -85,3 +85,6 @@ sudo chown -R vagrant:vagrant /var/openchain
 
 # Ensure permissions are set for GOPATH
 sudo chown -R vagrant:vagrant $GOPATH
+
+# Update limits.conf to increase nofiles for RocksDB
+sudo cp /openchain/obc-dev-env/limits.conf /etc/security/limits.conf
