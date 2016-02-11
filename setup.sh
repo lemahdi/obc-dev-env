@@ -31,10 +31,27 @@ fi
 # Stop on first error
 set -e
 
+# Remove Docker TODO unnecessary after changes
+stop docker
+apt remove -y lxc-docker
+
+# mkfs
+apt-get install -y btrfs-tools
+mkfs.btrfs -f /dev/sdb
+rm -Rf /var/lib/docker
+mkdir -p /var/lib/docker
+. <(sudo blkid -o udev /dev/sdb)
+echo "UUID=${ID_FS_UUID} /var/lib/docker btrfs defaults 0 0" >> /etc/fstab
+mount /var/lib/docker
+
+# Install docker
+apt-get install -y lxc-docker
+
+# Update system
 apt-get update -qq
 
 # configure docker
-echo 'DOCKER_OPTS="-s=aufs -r=true --api-enable-cors=true -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock --insecure-registry leanjazz.rtp.raleigh.ibm.com:5000 ${DOCKER_OPTS}"' > /etc/default/docker
+echo 'DOCKER_OPTS="-s=btrfs -r=true --api-enable-cors=true -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock --insecure-registry leanjazz.rtp.raleigh.ibm.com:5000 ${DOCKER_OPTS}"' > /etc/default/docker
 curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 service docker restart

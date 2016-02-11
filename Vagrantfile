@@ -38,6 +38,34 @@ Vagrant.configure('2') do |config|
     vb.name = "openchain"
     vb.customize ['modifyvm', :id, '--memory', '4096']
     vb.cpus = 2
+
+    # Add a second disk for the btrfs volume
+    IO.popen("VBoxManage list systemproperties") { |f|
+
+      success = false
+      while line = f.gets do
+        # Find the directory where the machine images are stored
+        machine_folder = line.sub(/^Default machine folder:\s*/,"")
+
+        if line != machine_folder
+          btrfs_disk = File.join(machine_folder, vb.name, 'btrfs.vdi')
+
+          unless File.exist?(btrfs_disk)
+            # Create the disk if it doesn't already exist
+            vb.customize ['createhd', '--filename', btrfs_disk, '--format', 'VDI', '--size', 20 * 1024 * 1024]
+          end
+
+          # Add the disk to the VM
+          vb.customize ['storageattach', :id, '--storagectl', 'SATAController', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', btrfs_disk]
+          success = true
+
+          break
+        end
+      end
+
+      raise Vagrant::Errors::VagrantError.new, "Could not provision btrfs disk" if !success
+    }
+
   end
 
   config.vm.provision :shell, inline: $script
