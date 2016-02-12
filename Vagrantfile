@@ -20,6 +20,8 @@ HOST_GOPATH = ENV['GOPATH']
 $script = <<SCRIPT
 set -x
 
+export DOCKER_STORAGE_BACKEND="#{ENV['DOCKER_STORAGE_BACKEND']}"
+
 cd #{SRCMOUNT}/obc-dev-env
 ./setup.sh
 
@@ -75,5 +77,5 @@ Vagrant.configure('2') do |config|
 
   end
 
-  config.vm.provision :shell, inline: $script, env: {'DOCKER_STORAGE_BACKEND'=>ENV['DOCKER_STORAGE_BACKEND']}
+  config.vm.provision :shell, inline: $script
 end
