@@ -18,7 +18,7 @@ If a component is found to be both broadly applicable and expensive to build wit
 
 * "make" will generate a new .box resource in the CWD, suitable for submission to atlas.
 * "make install" will also install the .box into the local vagrant environment, making it suitable to local testing.
-* To utilize the new base image in your local tests, run `vagrant destroy` then `USE_LOCAL_OBC_BASEIMAGE=true vagrant up`
+* To utilize the new base image in your local tests, run `vagrant destroy` then `USE_LOCAL_OBC_BASEIMAGE=true vagrant up`, also preface `vagrant ssh` as `USE_LOCAL_OBC_BASEIMAGE=true vagrant ssh` or simply export that variable, or Vagrant will fail to find the ssh key.
 
 ## Versioning
 
