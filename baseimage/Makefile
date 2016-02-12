@@ -13,7 +13,7 @@ install: $(IMAGE) remove
 	vagrant box add -name $(NAME) $(IMAGE)
 
 remove:
-	-vagrant box remove $(NAME)
+	-vagrant box remove --box-version 0 $(NAME)
 
 clean: remove
 	-rm $(IMAGE)
