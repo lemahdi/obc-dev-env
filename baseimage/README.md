@@ -18,3 +18,8 @@ If a component is found to be both broadly applicable and expensive to build wit
 
 * "make" will generate a new .box resource in the CWD, suitable for submission to atlas.
 * "make install" will also install the .box into the local vagrant environment, making it suitable to local testing.
+* To utilize the new base image in your local tests, run `vagrant destroy` then `USE_LOCAL_OBC_BASEIMAGE=true vagrant up`, also preface `vagrant ssh` as `USE_LOCAL_OBC_BASEIMAGE=true vagrant ssh` or simply export that variable, or Vagrant will fail to find the ssh key.
+
+## Versioning
+
+Vagrant boxes are only versioned when they are submitted to a repository.  Vagrant does not support applying a version to a vagrant box via the `vagrant box add` command.  Adding the box gives it an implicit version of 0.  Setting `USE_LOCAL_OBC_BASEIMAGE=true` in the `vagrant up` command causes the Vagrant file in the the parent directory to pick version 0, instead of the default.

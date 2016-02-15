@@ -31,19 +31,11 @@ fi
 # Stop on first error
 set -e
 
-# Add docker repository
-wget -q -O - https://get.docker.io/gpg | apt-key add -
-echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
-
 # Update the entire system to the latest releases
 apt-get update -qq
 
 # install git
 apt-get install --yes git
-
-# install docker
-apt-get install -q -y --force-yes linux-image-extra-$(uname -r) lxc-docker curl
-usermod -a -G docker vagrant # Add vagrant user to the docker group
 
 # Set Go environment variables needed by other scripts
 export GOPATH="/opt/gopath"

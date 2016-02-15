@@ -31,13 +31,51 @@ fi
 # Stop on first error
 set -e
 
+# Update system
 apt-get update -qq
 
-# configure docker
-echo 'DOCKER_OPTS="-s=aufs -r=true --api-enable-cors=true -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock --insecure-registry leanjazz.rtp.raleigh.ibm.com:5000 ${DOCKER_OPTS}"' > /etc/default/docker
+# Prep apt-get for docker install
+apt-get install -y apt-transport-https ca-certificates
+apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+
+# Add docker repository
+echo deb https://apt.dockerproject.org/repo ubuntu-trusty main > /etc/apt/sources.list.d/docker.list
+
+# Update system
+apt-get update -qq
+
+# Storage backend logic
+case "${DOCKER_STORAGE_BACKEND}" in
+  aufs|AUFS|"")
+    DOCKER_STORAGE_BACKEND_STRING="aufs" ;;
+  btrfs|BTRFS)
+    # mkfs
+    apt-get install -y btrfs-tools
+    mkfs.btrfs -f /dev/sdb
+    rm -Rf /var/lib/docker
+    mkdir -p /var/lib/docker
+    . <(sudo blkid -o udev /dev/sdb)
+    echo "UUID=${ID_FS_UUID} /var/lib/docker btrfs defaults 0 0" >> /etc/fstab
+    mount /var/lib/docker
+
+    DOCKER_STORAGE_BACKEND_STRING="btrfs" ;;
+  *) echo "Unknown storage backend ${DOCKER_STORAGE_BACKEND}"
+     exit 1;;
+esac
+
+# Install docker
+apt-get install -y linux-image-extra-$(uname -r) apparmor docker-engine
+
+# Configure docker
+echo "DOCKER_OPTS=\"-s=${DOCKER_STORAGE_BACKEND_STRING} -r=true --api-enable-cors=true -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock ${DOCKER_OPTS}\"" > /etc/default/docker
+
 curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 service docker restart
+usermod -a -G docker vagrant # Add vagrant user to the docker group
+
+# Test docker
+docker run --rm busybox echo All good
 
 # Install Python, pip, behave, nose
 apt-get install --yes python-setuptools
