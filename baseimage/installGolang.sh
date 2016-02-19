@@ -29,7 +29,7 @@ SRCPATH=$GOPATH
 
 #ARCH=`uname -m | sed 's|i686|386|' | sed 's|x86_64|amd64|'`
 ARCH=amd64
-GO_VER=1.5.1
+GO_VER=1.6
 
 cd /tmp
 rm -f go$GO_VER.linux-${ARCH}.tar.gz
