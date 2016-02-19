@@ -37,7 +37,6 @@ sudo chown -R vagrant:vagrant $GOPATH
 cat <<EOF >/tmp/gopath.sh
 export GOPATH="$GOPATH"
 export GOROOT="$GOROOT"
-export GO15VENDOREXPERIMENT=1
 export PATH="$GOROOT/bin:$GOPATH/bin:\$PATH"
 export CGO_CFLAGS="-I/opt/rocksdb/include"
 export CGO_LDFLAGS="-L/opt/rocksdb -lrocksdb -lstdc++ -lm -lz -lbz2 -lsnappy"

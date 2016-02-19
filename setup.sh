@@ -93,7 +93,6 @@ pip install -I flask==0.10.1 python-dateutil==2.2 pytz==2014.3 pyyaml==3.10 couc
 # Set Go environment variables needed by other scripts
 export GOPATH="/opt/gopath"
 export GOROOT="/opt/go/"
-export GO15VENDOREXPERIMENT=1
 PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 
 #install golang deps
