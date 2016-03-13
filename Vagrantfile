@@ -43,8 +43,8 @@ Vagrant.configure('2') do |config|
     aws.region = "ap-southeast-1"
     aws.instance_type = 't2.micro'
 
-    override.ssh.username = "vagrant"
-    override.ssh.private_key_path = "/Users/Home/Projects/GO-envdev/vagrant.pem"
+    override.ssh.username = "ubuntu"
+    override.ssh.private_key_path = "/Users/Home/.ssh/ubuntu.pem"
 
     aws.tags = {
       Name: 'Vagrant AWS OBC'
