@@ -73,6 +73,7 @@ curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose
 chmod +x /usr/local/bin/docker-compose
 service docker restart
 usermod -a -G docker vagrant # Add vagrant user to the docker group
+usermod -a -G docker ubuntu # Add ubuntu user to the docker group
 
 # Test docker
 docker run --rm busybox echo All good

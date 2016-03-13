@@ -21,6 +21,7 @@ $script = <<SCRIPT
 set -x
 
 export DOCKER_STORAGE_BACKEND="#{ENV['DOCKER_STORAGE_BACKEND']}"
+export DEBIAN_FRONTEND=noninteractive
 
 cd #{SRCMOUNT}/obc-dev-env
 ./setup.sh
@@ -28,8 +29,28 @@ cd #{SRCMOUNT}/obc-dev-env
 SCRIPT
 
 Vagrant.configure('2') do |config|
-  config.vm.box = "obc/dev-env"
-  config.vm.box_version = ENV['USE_LOCAL_OBC_BASEIMAGE'] ? "0":"0.2.1" # Vagrant does not support versioning local images, the local version is always implicitly version 0
+  config.vm.box = "dummy"
+  # config.vm.box_version = ENV['USE_LOCAL_OBC_BASEIMAGE'] ? "0":"0.2.1" # Vagrant does not support versioning local images, the local version is always implicitly version 0
+
+  config.vm.provider :aws do |aws, override|
+    aws.access_key_id = "ASIAIXLMMIOG6FJXAGOA"
+    aws.secret_access_key = "wkxNRkRSx7kYzl6zlW+iNSx+CqnbIj9x980K/Ejr"
+    aws.session_token = "AQoDYXdzECUa8AFJ5hNe3eY+VAJNHs+DoLPx639dmGTVFi86evfnzp1hxSKt1GDDx6wLNVBUfOFzOCiaNNlWTiRbB1K+61fo2RDiX0xG0FkkekpffvY/PQY22XifJlplNQvXSdWsKvSuyCM41usbYSulYLCqqt9kwWmb5zJtQvoMaPsP7Kq4Ax8jyV2Ox8EEGwnCmAXT62D2bYtLc4Ua2TeomeIsdRrRz+kN/Nyua/+Htuohczs9fSD11xfbJ+eec1t6YRlMUuo5aYUMkt1KWp7UEYnsxfG4EoKrfHGhsf5e9o2Fayw3niyIwDiH2arx7/UE0fB0vEeeYPsgz72TtwU="
+    aws.keypair_name = "mahdi"
+    # aws sts get-session-token --duration-seconds 129600
+
+    aws.ami = "ami-c69358a5"
+    aws.region = "ap-southeast-1"
+    aws.instance_type = 't2.micro'
+
+    override.ssh.username = "vagrant"
+    override.ssh.private_key_path = "/Users/Home/Projects/GO-envdev/vagrant.pem"
+
+    aws.tags = {
+      Name: 'Vagrant AWS OBC'
+    }
+    aws.security_groups = [ 'launch-wizard-6' ]
+  end
 
   config.vm.network :forwarded_port, guest: 5000, host: 3000 # Openchain REST services
   config.vm.network :forwarded_port, guest: 30303, host: 30303 # Openchain gRPC services
