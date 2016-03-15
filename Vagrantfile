@@ -33,13 +33,13 @@ Vagrant.configure('2') do |config|
   # config.vm.box_version = ENV['USE_LOCAL_OBC_BASEIMAGE'] ? "0":"0.2.1" # Vagrant does not support versioning local images, the local version is always implicitly version 0
 
   config.vm.provider :aws do |aws, override|
-    aws.access_key_id = "ASIAIXLMMIOG6FJXAGOA"
-    aws.secret_access_key = "wkxNRkRSx7kYzl6zlW+iNSx+CqnbIj9x980K/Ejr"
-    aws.session_token = "AQoDYXdzECUa8AFJ5hNe3eY+VAJNHs+DoLPx639dmGTVFi86evfnzp1hxSKt1GDDx6wLNVBUfOFzOCiaNNlWTiRbB1K+61fo2RDiX0xG0FkkekpffvY/PQY22XifJlplNQvXSdWsKvSuyCM41usbYSulYLCqqt9kwWmb5zJtQvoMaPsP7Kq4Ax8jyV2Ox8EEGwnCmAXT62D2bYtLc4Ua2TeomeIsdRrRz+kN/Nyua/+Htuohczs9fSD11xfbJ+eec1t6YRlMUuo5aYUMkt1KWp7UEYnsxfG4EoKrfHGhsf5e9o2Fayw3niyIwDiH2arx7/UE0fB0vEeeYPsgz72TtwU="
+    aws.access_key_id = "#{ENV['AWS_ACCESS_KEY_ID']}"
+    aws.secret_access_key = "#{ENV['AWS_SECRET_ACCESS_KEY']}"
+    aws.session_token = "#{ENV['AWS_SESSION_TOKEN']}"
     aws.keypair_name = "mahdi"
     # aws sts get-session-token --duration-seconds 129600
 
-    aws.ami = "ami-c69358a5"
+    aws.ami = "ami-d1a06bb2"
     aws.region = "ap-southeast-1"
     aws.instance_type = 't2.micro'
 
