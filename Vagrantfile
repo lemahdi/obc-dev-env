@@ -32,6 +32,7 @@ Vagrant.configure('2') do |config|
   config.vm.box_version = ENV['USE_LOCAL_OBC_BASEIMAGE'] ? "0":"0.2.1" # Vagrant does not support versioning local images, the local version is always implicitly version 0
 
   config.vm.network :forwarded_port, guest: 5000, host: 3000 # Openchain REST services
+  config.vm.network :forwarded_port, guest: 30303, host: 30303 # Openchain gRPC services
 
   config.vm.synced_folder "..", "#{SRCMOUNT}"
   config.vm.synced_folder "#{HOST_GOPATH}/src/github.com/openblockchain/obc-peer", "/opt/gopath/src/github.com/openblockchain/obc-peer"
