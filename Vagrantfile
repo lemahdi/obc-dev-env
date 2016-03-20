@@ -39,9 +39,9 @@ Vagrant.configure('2') do |config|
     aws.keypair_name = "mahdi"
     # aws sts get-session-token --duration-seconds 129600
 
-    aws.ami = "ami-d1a06bb2"
-    aws.region = "ap-southeast-1"
-    aws.instance_type = 't2.micro'
+    aws.ami = "#{ENV['AWS_AMI']}"
+    aws.region = "#{ENV['AWS_REGION']}"
+    aws.instance_type = "#{ENV['AWS_INSTANCE_TYPE']}"
 
     override.ssh.username = "vagrant"
     override.ssh.private_key_path = "/Users/Home/.ssh/vagrant.pem"
