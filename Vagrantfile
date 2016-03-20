@@ -58,7 +58,7 @@ Vagrant.configure('2') do |config|
   config.vm.synced_folder "..", "#{SRCMOUNT}"
   config.vm.synced_folder "#{HOST_GOPATH}/src/github.com/openblockchain/obc-peer", "/opt/gopath/src/github.com/openblockchain/obc-peer"
 
-  config.vm.provider :virtualbox do |vb|
+  config.vm.provider :aws do |vb|
     vb.name = "openchain"
     vb.customize ['modifyvm', :id, '--memory', '4096']
     vb.cpus = 2
