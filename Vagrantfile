@@ -43,13 +43,18 @@ Vagrant.configure('2') do |config|
     aws.region = "#{ENV['AWS_REGION']}"
     aws.instance_type = "#{ENV['AWS_INSTANCE_TYPE']}"
 
-    override.ssh.username = "vagrant"
-    override.ssh.private_key_path = "/Users/Home/.ssh/vagrant.pem"
+    if ARGV[0] == "ssh"
+      override.ssh.username = "vagrant"
+      override.ssh.private_key_path = "/Users/Home/.ssh/vagrant.pem"
+    else
+      config.ssh.username = 'ubuntu'
+      override.ssh.private_key_path = "/Users/Home/.ssh/ubuntu.pem"
+    end
 
     aws.tags = {
       Name: 'Vagrant AWS OBC'
     }
-    aws.security_groups = [ 'launch-wizard-6' ]
+    aws.security_groups = [ 'launch-wizard-6', 'sg.vagrant.obc' ]
   end
 
   config.vm.network :forwarded_port, guest: 5000, host: 3000 # Openchain REST services
@@ -59,9 +64,9 @@ Vagrant.configure('2') do |config|
   config.vm.synced_folder "#{HOST_GOPATH}/src/github.com/openblockchain/obc-peer", "/opt/gopath/src/github.com/openblockchain/obc-peer"
 
   config.vm.provider :aws do |vb|
-    vb.name = "openchain"
-    vb.customize ['modifyvm', :id, '--memory', '4096']
-    vb.cpus = 2
+    # vb.name = "openchain"
+    # vb.customize ['modifyvm', :id, '--memory', '4096']
+    # vb.cpus = 2
 
     storage_backend = ENV['DOCKER_STORAGE_BACKEND']
     case storage_backend
